@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Let’s play the Slot Machine Game!");
+        Console.WriteLine("Let’s play the SlotMachine Game!");
         Console.WriteLine("\nPlease, enter your amount of money to play, and then press ENTER:");
         int moneyCount = Convert.ToInt32(Console.ReadLine());
         
