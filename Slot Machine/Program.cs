@@ -14,5 +14,6 @@ class Program
         Console.WriteLine("Press 3 if you want to play with all 3 horizontal lines + diagonals (cost: €Z/per spin)");
 
         int[,] slotMachine = new int [3, 3];
+        
     }
 }
