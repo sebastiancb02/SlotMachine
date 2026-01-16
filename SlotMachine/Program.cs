@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
+        const int GRID_SIZE = 3;
+        
         Console.WriteLine("Let’s play the SlotMachine Game!");
         Console.WriteLine("\nPlease, enter your amount of money to play, and then press ENTER:");
         int moneyCount = Convert.ToInt32(Console.ReadLine());
@@ -21,15 +23,15 @@ class Program
         {
             userOption = Console.ReadKey(true).KeyChar;
 	
-            bool win = true;
-            int centerLine = 3/2;
+            bool win = false;
+            int centerLine = GRID_SIZE/2;
 
             for (int row = 0; row < 3; row++)
             {
                 for (int column = 0; column < 3; column++)
                 {
                     Random rnd = new Random(); 
-                    slotMachineGrid[row, column] = rnd.Next(1, 3);
+                    slotMachineGrid[row, column] = rnd.Next(1, 4);
                 }
             }
 
@@ -37,8 +39,10 @@ class Program
             {
                 for (int column = 0; column < 3; column++)
                 {
-                    Console.WriteLine(slotMachineGrid[row, column]);
+                    Console.Write(slotMachineGrid[row, column]);
                 }
+                
+                Console.WriteLine();
             }
 
             if (userOption == '1')
@@ -47,7 +51,7 @@ class Program
                 if (slotMachineGrid[centerLine, 0] == slotMachineGrid[centerLine, 1])
                 {
                     Console.WriteLine("Wow! You’ve just earned €3!");
-                    //win;
+                    win = true;
                     moneyCount += 3;
                 } 
  
@@ -57,7 +61,7 @@ class Program
                     moneyCount -= 1;
                 }
                 
-
+                Console.WriteLine(moneyCount);
             }
         }
     }
