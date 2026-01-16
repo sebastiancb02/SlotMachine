@@ -56,6 +56,7 @@ class Program
                     Console.WriteLine("Bad luck :(");
                     moneyCount -= 1;
                 }
+                
 
             }
         }
