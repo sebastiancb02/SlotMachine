@@ -30,7 +30,7 @@ class Program
                 for (int column = 0; column < GRID_SIZE; column++)
                 {
                     Random rnd = new Random(); 
-                    slotMachineGrid[row, column] = rnd.Next(1, 4);
+                    slotMachineGrid[row, column] = 1;
                 }
             }
             
@@ -86,7 +86,7 @@ class Program
                 
                 if (win)
                 {    
-                    Console.WriteLine("\nWow! You've just earned €3!");
+                    Console.WriteLine("\nWow! You've just earned €9!");
                     moneyCount += 9;
                 }
                 
@@ -103,7 +103,7 @@ class Program
                 {
                     for (int column = 0; column < GRID_SIZE; column++)
                     {
-                        if (slotMachineGrid[0, 0] != slotMachineGrid[row, row])
+                        if (slotMachineGrid[0, 0] != slotMachineGrid[row, row] && slotMachineGrid[0,GRID_SIZE - 1] != slotMachineGrid[row, column = GRID_SIZE - row - 1])
                         {
                             win = false;
                         }
@@ -112,7 +112,7 @@ class Program
                 
                 if (win)
                 {    
-                    Console.WriteLine("\nWow! You've just earned €3!");
+                    Console.WriteLine("\nWow! You've just earned €12!");
                     moneyCount += 12;
                 }
                 
