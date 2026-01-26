@@ -11,9 +11,9 @@ class Program
         int moneyCount = Convert.ToInt32(Console.ReadLine());
         
         Console.WriteLine("\nNow, please choose your configuration:");
-        Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €X/per spin)");
-        Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €Y/per spin)");
-        Console.WriteLine("Press 3 if you want to play with all 3 horizontal lines + diagonals (cost: €Z/per spin)");
+        Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
+        Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
+        Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
 
         int[,] slotMachineGrid = new int [3, 3];
         
@@ -22,46 +22,112 @@ class Program
         while (moneyCount != 0)
         {
             userOption = Console.ReadKey(true).KeyChar;
-	
-            bool win = false;
+            
             int centerLine = GRID_SIZE/2;
 
-            for (int row = 0; row < 3; row++)
+            for (int row = 0; row < GRID_SIZE; row++)
             {
-                for (int column = 0; column < 3; column++)
+                for (int column = 0; column < GRID_SIZE; column++)
                 {
                     Random rnd = new Random(); 
                     slotMachineGrid[row, column] = rnd.Next(1, 4);
                 }
             }
+            
+            Console.WriteLine();
 
-            for (int row = 0; row < 3; row++)
+            for (int row = 0; row < GRID_SIZE; row++)
             {
-                for (int column = 0; column < 3; column++)
+                for (int column = 0; column < GRID_SIZE; column++)
                 {
                     Console.Write(slotMachineGrid[row, column]);
                 }
                 
                 Console.WriteLine();
             }
+            
+            bool win = true;
 
             if (userOption == '1')
             {
-
-                if (slotMachineGrid[centerLine, 0] == slotMachineGrid[centerLine, 1])
+                for (int column = 0; column < GRID_SIZE; column++)
                 {
-                    Console.WriteLine("Wow! You’ve just earned €3!");
-                    win = true;
-                    moneyCount += 3;
-                } 
- 
-                else
-                {
-                    Console.WriteLine("Bad luck :(");
-                    moneyCount -= 1;
+                    if (slotMachineGrid[centerLine, 0] != slotMachineGrid[centerLine, column])
+                    {
+                        win = false;
+                    } 
                 }
                 
-                Console.WriteLine(moneyCount);
+                if (win)
+                {    
+                    Console.WriteLine("\nWow! You've just earned €3!");
+                    moneyCount += 3;
+                }
+                
+                else
+                {
+                    Console.WriteLine("\nBad luck :(");
+                    moneyCount -= 1;
+                }
+            }
+
+            if (userOption == '2')
+            {
+                for (int row = 0; row < GRID_SIZE; row++)
+                {
+                    for (int column = 0; column < GRID_SIZE; column++)
+                    {
+                        if (slotMachineGrid[row, 0] != slotMachineGrid[row, column])
+                        {
+                            win = false;
+                        }
+                    } 
+                }
+                
+                if (win)
+                {    
+                    Console.WriteLine("\nWow! You've just earned €3!");
+                    moneyCount += 9;
+                }
+                
+                else
+                {
+                    Console.WriteLine("\nBad luck :(");
+                    moneyCount -= 3;
+                }
+            }
+
+            if (userOption == '3')
+            {
+                for (int row = 0; row < GRID_SIZE; row++)
+                {
+                    for (int column = 0; column < GRID_SIZE; column++)
+                    {
+                        if (slotMachineGrid[0, 0] != slotMachineGrid[row, row])
+                        {
+                            win = false;
+                        }
+                    } 
+                }
+                
+                if (win)
+                {    
+                    Console.WriteLine("\nWow! You've just earned €3!");
+                    moneyCount += 12;
+                }
+                
+                else
+                {
+                    Console.WriteLine("\nBad luck :(");
+                    moneyCount -= 3;
+                }    
+            }    
+            
+            Console.WriteLine($"\nAmount of money left: {moneyCount}");
+            
+            if (moneyCount == 0)
+            {
+                Console.WriteLine("\nSorry, you've run out of money");
             }
         }
     }
