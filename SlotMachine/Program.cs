@@ -11,9 +11,6 @@ class Program
         int moneyCount = Convert.ToInt32(Console.ReadLine());
         
         Console.WriteLine("\nNow, please choose your configuration:");
-        Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
-        Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
-        Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
 
         int[,] slotMachineGrid = new int [3, 3];
         
@@ -30,7 +27,7 @@ class Program
                 for (int column = 0; column < GRID_SIZE; column++)
                 {
                     Random rnd = new Random(); 
-                    slotMachineGrid[row, column] = 1;
+                    slotMachineGrid[row, column] = rnd.Next(1, 3);
                 }
             }
             
@@ -50,6 +47,10 @@ class Program
 
             if (userOption == '1')
             {
+                Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
+                Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
+                Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
+                
                 for (int column = 0; column < GRID_SIZE; column++)
                 {
                     if (slotMachineGrid[centerLine, 0] != slotMachineGrid[centerLine, column])
@@ -101,13 +102,18 @@ class Program
             {
                 for (int row = 0; row < GRID_SIZE; row++)
                 {
-                    for (int column = 0; column < GRID_SIZE; column++)
+                    if (slotMachineGrid[0, 0] != slotMachineGrid[row, row])
+                    { 
+                        win = false;
+                    }
+                }
+                
+                for (int row = 0; row < GRID_SIZE; row++)
+                {
+                    if (slotMachineGrid[0, GRID_SIZE - 1] != slotMachineGrid[row, GRID_SIZE - row - 1])
                     {
-                        if (slotMachineGrid[0, 0] != slotMachineGrid[row, row] && slotMachineGrid[0,GRID_SIZE - 1] != slotMachineGrid[row, column = GRID_SIZE - row - 1])
-                        {
-                            win = false;
-                        }
-                    } 
+                        win = false; 
+                    }
                 }
                 
                 if (win)
@@ -125,9 +131,10 @@ class Program
             
             Console.WriteLine($"\nAmount of money left: {moneyCount}");
             
-            if (moneyCount == 0)
+            if (moneyCount <= 0)
             {
                 Console.WriteLine("\nSorry, you've run out of money");
+                break;
             }
         }
     }
