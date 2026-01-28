@@ -11,6 +11,9 @@ class Program
         int moneyCount = Convert.ToInt32(Console.ReadLine());
         
         Console.WriteLine("\nNow, please choose your configuration:");
+        Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
+        Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
+        Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)"); 
 
         int[,] slotMachineGrid = new int [3, 3];
         
@@ -31,6 +34,10 @@ class Program
                 }
             }
             
+            Console.Clear();
+            Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
+            Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
+            Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
             Console.WriteLine();
 
             for (int row = 0; row < GRID_SIZE; row++)
@@ -47,10 +54,6 @@ class Program
 
             if (userOption == '1')
             {
-                Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
-                Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
-                Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
-                
                 for (int column = 0; column < GRID_SIZE; column++)
                 {
                     if (slotMachineGrid[centerLine, 0] != slotMachineGrid[centerLine, column])
@@ -100,11 +103,14 @@ class Program
 
             if (userOption == '3')
             {
+                bool mainDiagonalWin = true;
+                bool secondaryDiagonalWin = true;
+                
                 for (int row = 0; row < GRID_SIZE; row++)
                 {
                     if (slotMachineGrid[0, 0] != slotMachineGrid[row, row])
                     { 
-                        win = false;
+                        mainDiagonalWin = false;
                     }
                 }
                 
@@ -112,11 +118,11 @@ class Program
                 {
                     if (slotMachineGrid[0, GRID_SIZE - 1] != slotMachineGrid[row, GRID_SIZE - row - 1])
                     {
-                        win = false; 
+                        secondaryDiagonalWin = false; 
                     }
                 }
                 
-                if (win)
+                if (mainDiagonalWin && secondaryDiagonalWin)
                 {    
                     Console.WriteLine("\nWow! You've just earned €12!");
                     moneyCount += 12;
