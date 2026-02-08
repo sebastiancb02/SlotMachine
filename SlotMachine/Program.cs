@@ -14,6 +14,8 @@ class Program
         const int MIDDLE_LINE_MODE_COST = 1;
         const int ALL_HORIZONTAL_LINES_MODE_COST = 3;
         const int DIAGONAL_LINES_MODE_COST = 5;
+        const int LOWEST_POSSIBLE_NUMBER_IN_THE_GRID = 1;
+        const int HIGHEST_POSSIBLE_NUMBER_IN_THE_GRID = 3;
         const char NEW_AMOUNT_OPTION = 'N';
         const char EXIT_OPTION = 'E';
 
@@ -21,22 +23,26 @@ class Program
         Console.WriteLine("\nPlease, enter your amount of money to play, and then press ENTER:");
         int moneyCount = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine("\nNow, please choose your configuration:");
-        Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
-        Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
-        Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
-
         int[,] slotMachineGrid = new int [GRID_SIZE, GRID_SIZE];
 
         char userOption;
         char noMoneyChoice;
         bool keepPlaying = true;
+        Random rnd = new Random();
 
         while (keepPlaying)
         {
             while (moneyCount != 0)
             {
+                Console.WriteLine("\nChoose your mode:");
+                Console.WriteLine($"Press 1 if you only want to play with the center line (cost: €{MIDDLE_LINE_MODE_COST}/per spin)");
+                Console.WriteLine($"Press 2 if you want to play with all the horizontal lines (cost: €{ALL_HORIZONTAL_LINES_MODE_COST}/per spin)");
+                Console.WriteLine($"Press 3 if you want to play with all diagonals (cost: €{DIAGONAL_LINES_MODE_COST}/per spin)");
+                Console.WriteLine();
+                
                 userOption = Console.ReadKey(true).KeyChar;
+                
+                Console.Clear();
 
                 int centerLine = GRID_SIZE / 2;
 
@@ -44,24 +50,16 @@ class Program
                 {
                     for (int column = 0; column < GRID_SIZE; column++)
                     {
-                        Random rnd = new Random();
-                        slotMachineGrid[row, column] = rnd.Next(1, 3);
+                        slotMachineGrid[row, column] = rnd.Next(LOWEST_POSSIBLE_NUMBER_IN_THE_GRID, HIGHEST_POSSIBLE_NUMBER_IN_THE_GRID);
                     }
                 }
-
-                Console.Clear();
-                Console.WriteLine("\nPress 1 if you only want to play with the center line (cost: €1/per spin)");
-                Console.WriteLine("Press 2 if you want to play with all the horizontal lines (cost: €3/per spin)");
-                Console.WriteLine("Press 3 if you want to play with all diagonals (cost: €5/per spin)");
-                Console.WriteLine();
-
+                
                 for (int row = 0; row < GRID_SIZE; row++)
                 {
                     for (int column = 0; column < GRID_SIZE; column++)
                     {
                         Console.Write(slotMachineGrid[row, column]);
                     }
-
                     Console.WriteLine();
                 }
 
@@ -79,7 +77,7 @@ class Program
 
                     if (win)
                     {
-                        Console.WriteLine("\nWow! You've just earned €3!");
+                        Console.WriteLine($"\nWow! You've just earned €{MIDDLE_LINE_MODE_WIN}!");
                         moneyCount += MIDDLE_LINE_MODE_WIN;
                     }
 
@@ -105,7 +103,7 @@ class Program
 
                     if (win)
                     {
-                        Console.WriteLine("\nWow! You've just earned €9!");
+                        Console.WriteLine($"\nWow! You've just earned €{ALL_HORIZONTAL_LINES_MODE_WIN}!");
                         moneyCount += ALL_HORIZONTAL_LINES_MODE_WIN;
                     }
 
@@ -139,7 +137,7 @@ class Program
 
                     if (mainDiagonalWin && secondaryDiagonalWin)
                     {
-                        Console.WriteLine("\nWow! You've just earned €12!");
+                        Console.WriteLine($"\nWow! You've just earned €{DIAGONAL_LINES_MODE_WIN}!");
                         moneyCount += DIAGONAL_LINES_MODE_WIN;
                     }
 
@@ -154,7 +152,7 @@ class Program
                 {
                     Console.Clear();
                     Console.WriteLine("\nSorry, you've run out of money :,(");
-                    Console.WriteLine("\nYou can either press 'N' to insert a new amount or press 'E' to QUIT");
+                    Console.WriteLine($"\nYou can either press '{NEW_AMOUNT_OPTION}' to insert a new amount or press '{EXIT_OPTION}' to QUIT");
                     noMoneyChoice = char.ToUpper(Console.ReadKey(true).KeyChar);
 		
                     if (noMoneyChoice == NEW_AMOUNT_OPTION)
@@ -174,6 +172,7 @@ class Program
 
                     if (noMoneyChoice == EXIT_OPTION)
                     {
+                        Console.Clear();
                         Console.WriteLine("\nThank you for playing! We hope to see you soon :D");
                         keepPlaying = false;
                         break;
